@@ -1,22 +1,36 @@
 import React from "react"
-import { Text, View, StyleSheet } from "react-native"
+import { TextInput, View, StyleSheet } from "react-native"
 import { FontAwesome } from '@expo/vector-icons';
 
 const SearchBar = () => {
   return (
-    <View style={styles.background}>
-      <FontAwesome name="search" size={30} color="black" />
-      <Text>Search Bar</Text>
+    <View style={styles.backgroundStyle}>
+      <FontAwesome name="search" style={styles.iconStyle} />
+      <TextInput
+        style={styles.inputStye}
+        placeholder="Search"
+      />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  background: {
+  backgroundStyle: {
+    marginTop: 10,
     backgroundColor: "#F0EEEE",
     height: 50,
-    borderRadius: 15,
-    marginHorizontal: 15
+    borderRadius: 10,
+    marginHorizontal: 15,
+    flexDirection: "row",
+  },
+  inputStye: {
+    flex: 1,
+    fontSize: 18,
+  },
+  iconStyle: {
+    fontSize: 30,
+    alignSelf: "center",
+    marginHorizontal: 15,
   }
 });
 
