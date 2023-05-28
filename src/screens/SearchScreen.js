@@ -1,24 +1,35 @@
-import React from "react"
-import { Text, View, StyleSheet } from "react-native"
-import SearchBar from "../components/SearchBar";
-import useResults from "../hooks/useResults";
-import ResultsList from "../components/ResultsList";
+import React from 'react';
+import { Text, View, StyleSheet } from 'react-native';
+import SearchBar from '../components/SearchBar';
+import useResults from '../hooks/useResults';
+import ResultsList from '../components/ResultsList';
 
 const SearchScreen = () => {
-  const [searchTerm, setSearchTerm] = React.useState("");
+  const [searchTerm, setSearchTerm] = React.useState('');
   const [searchApi, results, errorMessage] = useResults();
+
+  const filterResultsByPrice = (price) => {
+    // price === '$' || '$$' || '$$$' || undefined (more dolar signs means more expensive)
+    return results.filter((result) => {
+      return result.price === price;
+    });
+  };
 
   return (
     <View>
-      <SearchBar searchTerm={searchTerm} onChangeSearchTerm={setSearchTerm} onTermSubmit={() => searchApi(searchTerm)}/>
+      <SearchBar
+        searchTerm={searchTerm}
+        onChangeSearchTerm={setSearchTerm}
+        onTermSubmit={() => searchApi(searchTerm)}
+      />
       {errorMessage && <Text>{errorMessage}</Text>}
       <Text>We have found {results.length} results</Text>
-      <ResultsList title="Cost Effective"/>
-      <ResultsList title="Bit Pricier"/>
-      <ResultsList title="Big Spender"/>
+      <ResultsList results={filterResultsByPrice('$')} title="Cost Effective" />
+      <ResultsList results={filterResultsByPrice('$$')} title="Bit Pricier" />
+      <ResultsList results={filterResultsByPrice('$$$')} title="Big Spender" />
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({});
 
