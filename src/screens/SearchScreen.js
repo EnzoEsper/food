@@ -6,6 +6,7 @@ import yelp from "../api/yelp"
 const SearchScreen = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const [results, setResults] = React.useState([]);
+  const [errorMessage, setErrorMessage] = React.useState("");
 
   const searchApi = async () => {
     try {
@@ -15,18 +16,19 @@ const SearchScreen = () => {
           term: searchTerm,
           location: "san jose"
         }
-      })
-      console.log("Api response", response.data);
-      setResults(response.data.businesses)
+      });
+      setResults(response.data.businesses);
+      setErrorMessage("");
     } catch (error) {
-      console.log("SearApi error", error);
+      console.log("searchApi error", error);
+      setErrorMessage("Something went wrong :(");
     }
   }
 
   return (
     <View>
       <SearchBar searchTerm={searchTerm} onChangeSearchTerm={setSearchTerm} onTermSubmit={searchApi}/>
-      <Text>Search Screen {searchTerm}</Text>
+      {errorMessage && <Text>{errorMessage}</Text>}
       <Text>We have found {results.length} results</Text>
     </View>
   )
